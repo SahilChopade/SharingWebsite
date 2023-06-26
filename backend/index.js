@@ -14,6 +14,9 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
+app.set("view engine", "jsx");
+app.engine("jsx", require("express-react-views").createEngine());
+
 //DATABASE CONNECTION
 mongoose
   .connect(process.env.DATABASE_URL)
@@ -22,35 +25,27 @@ mongoose
     console.error(err);
   });
 
-// app.get("/", (req, res) => {
-//   res.send("index");
-// });
-
-
 app.post("/upload", upload.single("file"), async function (req, res) {
-  console.log("reached")
+  console.log(req.file);
   const fileData = {
     path: req.file.path,
     originalName: req.file.originalname,
+    mimetype: req.file.mimetype,
   };
   if (req.body.password != null && req.body.password !== "") {
     fileData.password = await bcrypt.hash(req.body.password, 10);
   }
-
   const file = await File.create(fileData);
-  console.log(file);
-  res.header("origin", req.headers.origin);
-  res.redirect(`/upload/${file.id}`);
+  res.send(file._id);
 });
 
 app.get("/upload/:id", async function (req, res) {
   const id = req.params.id;
-  res.render("download", {
+  res.send({
     fileLink: `http://${req.headers.host}/file/${id}`,
     fileid: id,
   });
 });
-
 
 app.post("/send/:id", sendMail);
 
@@ -58,28 +53,25 @@ app.route("/file/:id").get(handleDownload).post(handleDownload);
 
 async function handleDownload(req, res) {
   const id = req.params.id;
-  console.log({ id });
-  console.log(req.body.password);
   const file = await File.findById(req.params.id);
+  const password=req.body.password??req.query.password;
+  // console.log(file);
   if (file.password != null) {
-    if (req.body.password == null) {
-      console.log("reached");
-      res.render("password", { id });
-      return;
+    if (password == null) {
+      return res.send({ password: true });
     }
-    if (!(await bcrypt.compare(req.body.password, file.password))) {
-      res.render("password", { error: true });
+    if (!(await bcrypt.compare(password, file.password))) {
+      res.send({ password: "not-correct", passwordCorrect: false });
       return;
     }
   }
   file.downloadCount++;
-  console.log(file.downloadCount);
   await file.save();
   res.header("filename", file.originalName);
+  res.header("content-type", file.mimetype);
   res.download(file.path, file.originalName);
+  // res.send({ password: false });
 }
-
-
 
 app.get("/find/:id", async (req, res) => {
   const id = req.params.id;

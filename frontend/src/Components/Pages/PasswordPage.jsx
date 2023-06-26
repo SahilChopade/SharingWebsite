@@ -1,24 +1,62 @@
 import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import MainImage from "../../assets/images/main-img.svg";
 import DownloadForOfflineIcon from "@mui/icons-material/DownloadForOffline";
 import PasswordImage from "../../assets/images/password-img.png";
-import Password from "../Password.jsx";
+import IconButton from "@mui/material/IconButton";
+import { OutlinedInput } from "@mui/material";
+import InputLabel from "@mui/material/InputLabel";
+import InputAdornment from "@mui/material/InputAdornment";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import FormControl from "@mui/material/FormControl";
 import { Snackbar, Alert } from "@mui/material";
 import Axios from "axios";
-const APIBASE_URL = "http://localhost:3000"
+const APIBASE_URL = "http://localhost:3000";
+
 export default function PasswordPage() {
-  const [passwordCorrect, setpasswordCorrect] = useState(false);
+  const navigate = useNavigate();
+  const { id } = useParams();
+  const [password, setPassword] = useState("");
+  const [passwordInCorrect, setpasswordInCorrect] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const handleClickShowPassword = () => setShowPassword((show) => !show);
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {
       return;
     }
-    setpasswordCorrect(false);
+    setpasswordInCorrect(false);
+  };
+  const handleTextInputChange = (e) => {
+    setPassword(e.target.value);
+  };
+
+  const handlePasswordDownloadClick = () => {
+    Axios.post(APIBASE_URL + `/file/${id}`, {
+      password: `${password}`,
+    }).then((res) => {
+      console.log(res.data);
+      if (res.data.password == "not-correct" && !res.data.passwordCorrect) {
+        setpasswordInCorrect(true);
+        setPassword("");
+      } else {
+        const link = document.createElement("a");
+        const url = `${APIBASE_URL}/file/${id}?password=${password}`;
+        link.href = url;
+        link.click();
+        navigate(`/download/${id}`);
+      }
+    });
   };
   return (
     <div className="flex items-center justify-center space-x-4 p-[15px] text-center">
-      <div className="bg-white p-[40px] rounded-lg space-y-1">
+      <div className="bg-white p-[21px] rounded-lg space-y-1">
         <Snackbar
-          open={passwordCorrect}
+          open={passwordInCorrect}
           autoHideDuration={6000}
           onClose={handleClose}
         >
@@ -35,10 +73,39 @@ export default function PasswordPage() {
           </div>
         </div>
         <div className="w-full">
-          <Password />
+          <FormControl sx={{ m: 1, width: "5in" }} variant="outlined">
+            <InputLabel htmlFor="outlined-adornment-password">
+              Password
+            </InputLabel>
+            <OutlinedInput
+              id="outlined-adornment-password"
+              type={showPassword ? "text" : "password"}
+              sx={{
+                width: "auto",
+              }}
+              value={password}
+              onChange={handleTextInputChange}
+              endAdornment={
+                <InputAdornment position="end">
+                  <IconButton
+                    aria-label="toggle password visibility"
+                    onClick={handleClickShowPassword}
+                    onMouseDown={handleMouseDownPassword}
+                    edge="end"
+                  >
+                    {showPassword ? <VisibilityOff /> : <Visibility />}
+                  </IconButton>
+                </InputAdornment>
+              }
+              label="Password"
+            />
+          </FormControl>
         </div>
         <div>
-          <button className="py-[10px] px-[50px] rounded-lg back text-white font-bold text-[25px]">
+          <button
+            className="py-[10px] px-[50px] rounded-lg back text-white font-bold text-[25px]"
+            onClick={handlePasswordDownloadClick}
+          >
             <div className="flex items-center">
               DOWNLOAD
               <DownloadForOfflineIcon
