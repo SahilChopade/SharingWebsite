@@ -34,19 +34,6 @@ export default function Download_MailPage() {
       .catch((err) => {
         console.log(err);
       });
-    // Axios({
-    //   url:  `${APIBASE_URL}/file/${id}`,
-    //   method: 'POST',
-    //   responseType: 'blob', // important
-    // }).then((response) => {
-    //   console.log(response);
-    //   const url = window.URL.createObjectURL(new Blob([response.data]));
-    //   const link = document.createElement('a');
-    //   link.href = url;
-    //   link.setAttribute('download', `file.${response.data.type}`);
-    //   document.body.appendChild(link);
-    //   link.click();
-    // });
   };
   const handleMailChange = (e) => {
     console.log(receiversMail);
@@ -111,8 +98,7 @@ export default function Download_MailPage() {
           </Snackbar>
           <div className="flex items-center justify-between border-[1px] rounded-lg border-black p-[10px]">
             <a
-              className="cursor-pointer text-[#093f92]"
-              // href={fileLink}
+              className="cursor-pointer text-[#093f92] w-[4.3in] overflow-hidden"
               onClick={handleDownloadClick}
             >
               {fileLink}
