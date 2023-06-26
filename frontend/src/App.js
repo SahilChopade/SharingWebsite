@@ -8,9 +8,6 @@ import {
   createBrowserRouter,
   RouterProvider,
 } from "react-router-dom";
-// import Axios from "axios";
-// const APIBASE_URL = "http://localhost:3000";
-
 function App() {
   const router = createBrowserRouter([
     {

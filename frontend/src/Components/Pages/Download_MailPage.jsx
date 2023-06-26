@@ -8,7 +8,7 @@ import { Snackbar, Alert } from "@mui/material";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import Axios from "axios";
-const APIBASE_URL = "http://localhost:3000";
+const APIBASE_URL = "https://shareify.onrender.com";
 
 export default function Download_MailPage() {
   const [fileLink, setfileLink] = useState("");

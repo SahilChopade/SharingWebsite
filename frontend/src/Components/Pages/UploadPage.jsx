@@ -11,7 +11,7 @@ import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import FormControl from "@mui/material/FormControl";
 import Axios from "axios";
 import { useNavigate } from "react-router-dom";
-const APIBASE_URL = "http://localhost:3000";
+const APIBASE_URL = "https://shareify.onrender.com";
 
 export default function UploadPage() {
   const [uploadfile, setuploadFile] = useState(null);

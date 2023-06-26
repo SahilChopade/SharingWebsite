@@ -13,7 +13,7 @@ import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import FormControl from "@mui/material/FormControl";
 import { Snackbar, Alert } from "@mui/material";
 import Axios from "axios";
-const APIBASE_URL = "http://localhost:3000";
+const APIBASE_URL = "https://shareify.onrender.com";
 
 export default function PasswordPage() {
   const navigate = useNavigate();
