@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import MainImage from "../../assets/images/main-img.svg";
+import TransferAnimation from "../TransferAnimation";
 import DownloadForOfflineIcon from "@mui/icons-material/DownloadForOffline";
 import PasswordImage from "../../assets/images/password-img.png";
 import IconButton from "@mui/material/IconButton";
@@ -40,7 +40,7 @@ export default function PasswordPage() {
       password: `${password}`,
     }).then((res) => {
       console.log(res.data);
-      if (res.data.password == "not-correct" && !res.data.passwordCorrect) {
+      if (res.data.password === "not-correct" && !res.data.passwordCorrect) {
         setpasswordInCorrect(true);
         setPassword("");
       } else {
@@ -53,7 +53,7 @@ export default function PasswordPage() {
     });
   };
   return (
-    <div className="flex items-center justify-center space-x-4 p-[15px] text-center">
+    <div className="flex flex-col lg:flex-row mt-[30px] lg:mt-0 items-center justify-center gap-4 p-[15px] text-center">
       <div className="bg-white p-[21px] rounded-lg space-y-1">
         <Snackbar
           open={passwordInCorrect}
@@ -115,8 +115,8 @@ export default function PasswordPage() {
           </button>
         </div>
       </div>
-      <div className="w-[740px]">
-        <img src={MainImage} alt="mainImage" />
+      <div className="hidden lg:flex">
+        <TransferAnimation />
       </div>
     </div>
   );

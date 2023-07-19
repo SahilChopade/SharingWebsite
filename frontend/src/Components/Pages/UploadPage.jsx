@@ -1,5 +1,5 @@
 import React, { useState} from "react";
-import MainImage from "../../assets/images/main-img.svg";
+import TransferAnimation from "../TransferAnimation";
 import LinkIcon from "@mui/icons-material/Link";
 import { FileUploader } from "react-drag-drop-files";
 import IconButton from "@mui/material/IconButton";
@@ -26,10 +26,9 @@ export default function UploadPage() {
   };
   const navigate = useNavigate();
   const handleClick = () => {
-    let formData = new FormData(); //formdata object
-    formData.append("file", uploadfile); //append the values with key, value pair
+    let formData = new FormData();
+    formData.append("file", uploadfile); 
     formData.append("password", password);
-    // console.log("This is form data",formData);
     const config = {
       headers: { "content-type": "multipart/form-data" },
     };
@@ -43,13 +42,14 @@ export default function UploadPage() {
         console.log(error);
       });
   };
+
   const handleChange = (file) => {
     console.log(file[0]);    
     setuploadFile(file[0]);
   };
 
   return (
-    <div className="flex items-center justify-center space-x-4 p-[20px] text-center">
+    <div className="flex flex-col lg:flex-row mt-[30px] lg:mt-0 items-center justify-center gap-4 p-[20px] text-center">
       <div className="bg-white p-[40px] rounded-lg">
         <h1 className="font-bold text-[30px] text-left p-[10px]">
           SHARE FILES WITH SAFETY
@@ -102,8 +102,8 @@ export default function UploadPage() {
           </button>
         </div>
       </div>
-      <div className="w-[747px]">
-        <img src={MainImage} alt="mainImage" />
+      <div>
+        <TransferAnimation />
       </div>
     </div>
   );

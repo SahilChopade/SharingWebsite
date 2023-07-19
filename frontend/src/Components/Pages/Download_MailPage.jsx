@@ -11,6 +11,7 @@ import Axios from "axios";
 const APIBASE_URL = "https://shareify.onrender.com";
 
 export default function Download_MailPage() {
+  const [loading, setLoading] = useState(false);
   const [fileLink, setfileLink] = useState("");
   const [receiversMail, setreceiversMail] = useState("");
   const [mailSent, setmailSent] = useState(false);
@@ -19,6 +20,7 @@ export default function Download_MailPage() {
   const navigate = useNavigate();
 
   const handleDownloadClick = () => {
+    setLoading(true);
     Axios.post(APIBASE_URL + `/file/${id}`)
       .then((res) => {
         console.log(res.data);
@@ -27,19 +29,22 @@ export default function Download_MailPage() {
         } else {
           const link = document.createElement("a");
           const url = `${APIBASE_URL}/file/${id}`;
-          link.href=url;
+          link.href = url;
           link.click();
         }
+      })
+      .then(() => {
+        setLoading(false);
       })
       .catch((err) => {
         console.log(err);
       });
   };
   const handleMailChange = (e) => {
-    console.log(receiversMail);
     setreceiversMail(e.target.value);
   };
   const handleMailClick = () => {
+    setLoading(true);
     Axios.post(APIBASE_URL + `/send/${id}`, {
       receiversMail: `${receiversMail}`,
     })
@@ -49,6 +54,9 @@ export default function Download_MailPage() {
           setmailSent(true);
           setreceiversMail("");
         }
+      })
+      .then(() => {
+        setLoading(false);
       })
       .catch((error) => {
         console.log(error);
@@ -62,13 +70,18 @@ export default function Download_MailPage() {
     setLinkCopied(false);
   };
   useEffect(() => {
-    Axios.get(APIBASE_URL + `/upload/${id}`).then((res) => {
-      setfileLink(res.data.fileLink);
-    });
+    setLoading(true);
+    Axios.get(APIBASE_URL + `/upload/${id}`)
+      .then((res) => {
+        setfileLink(res.data.fileLink);
+      })
+      .then(() => {
+        setLoading(false);
+      });
   }, []);
   return (
     <div className="text-center">
-      <div className="flex items-center justify-center space-x-14">
+      <div className="mt-[30px] flex flex-col lg:flex-row items-center justify-center gap-4">
         <div className="bg-white p-[41px] rounded-lg w-[550px] space-y-4">
           <h1 className="font-bold text-[30px] text-left">
             YOUR FILE HAS BEEN UPLOADED

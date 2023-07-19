@@ -1,5 +1,5 @@
 import "./App.css";
-import React, { useState, useEffect } from "react";
+import React from "react";
 import UploadPage from "./Components/Pages/UploadPage";
 import Download_MailPage from "./Components/Pages/Download_MailPage";
 import PasswordPage from "./Components/Pages/PasswordPage";
@@ -24,7 +24,7 @@ function App() {
     }
   ]);
   return (
-    <div className="fontstyle back p-[30px]">
+    <div className="fontstyle back p-[30px] min-h-screen">
       <div className="w-[150px]">
         <img src={Logo} alt="logo" />
       </div>
