@@ -11,7 +11,7 @@ const defaultOptions = {
 };
 export default function TransferAnimation() {
   return (
-    <div>
+    <div className="hidden lg:block">
       <Lottie options={defaultOptions} height={500} width={500} />
     </div>
   );
