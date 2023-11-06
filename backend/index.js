@@ -52,10 +52,11 @@ app.post("/send/:id", sendMail);
 app.route("/file/:id").get(handleDownload).post(handleDownload);
 
 async function handleDownload(req, res) {
+  console.log("entered")
   const id = req.params.id;
   const file = await File.findById(req.params.id);
   const password=req.body.password??req.query.password;
-  // console.log(file);
+  console.log({file,id,password});
   if (file.password != null) {
     if (password == null) {
       return res.send({ password: true });

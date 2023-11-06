@@ -15,7 +15,7 @@ export default function DownloadBox(downloadProps) {
     setLoading(true);
     Axios.post(APIBASE_URL + `/file/${id}`)
       .then((res) => {
-        console.log(res.data);
+        console.log(res);
         if (res.data.password) {
           navigate(`/password/${id}`);
         } else {

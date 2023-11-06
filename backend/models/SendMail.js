@@ -1,32 +1,29 @@
-const nodemailer = require("nodemailer");
+const { createTransport } = require("nodemailer");
 const sendMail = async (req, res) => {
   const id = req.params.id;
-  let testAccount = await nodemailer.createTestAccount();
-  const transporter = nodemailer.createTransport({
-    host: "smtp-relay.sendinblue.com",
-    port: 587,
+  const link = `http://${req.headers.host}/file/${id}`;
+  console.log('This is my file link--',link);
+  const transporter = createTransport({
+    service: "gmail",
     auth: {
-      user: "sahilchopade233@gmail.com",
-      pass: "7bBZOchYJs4SyfjH",
+      user: "chopade.sahil02@gmail.com",
+      pass: "blsltzuxrdvvlpic",
     },
   });
-  // const transporter = nodemailer.createTransport({
-  //   host: "pop3.mailtrap.io",
-  //   port: 587,
-  //   auth: {
-  //     user: "be1dc8ca38f443",
-  //     pass: "5758768145bb04",
-  //   },
-  // });
   let info = await transporter.sendMail({
-    from: `"Sahil Chopade 👻" <${testAccount.user}>`, // sender address
+    from: `"😊😊 Sahil Chopade 😊😊" <${transporter.options.auth.user}>`, // sender address
     to: `${req.body.receiversMail}`, // list of receivers
-    subject: "Hello Sahil, Here is the download link of ", // Subject line
+    subject: "Download Link of a file", // Subject line
     text: "Hello world?", // plain text body
-    html: `Here is your link:<br> <a href="${req.body.url}">${req.body.url}</a>`, // html body
+    html: `Hello Mr. User, <br> You have received the download link for the file you were looking for. <br> 
+    Please find the link below,<br> <a href="${link}">${link}</a> <br>Regards <br> Sahil Chopade`, // html body
   });
-  console.log(info);
-  res.send({ message: "Mail Sent" , status: true});
+  try {
+    const result = await transporter.sendMail(info);
+    console.log(info);
+    res.send({ message: "Mail Sent", status: true });
+  } catch (error) {
+    console.log("Email has not Sent: ", error);
+  }
 };
-
 module.exports = sendMail;

@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Merriweather:ital@1&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Merriweather:ital@1&display=swap");
 .back {
   background: linear-gradient(
     163deg,
@@ -6,7 +6,22 @@
     rgba(9, 9, 121, 1) 84%,
     rgba(2, 0, 36, 1) 100%
   );
+  
 }
-.fontstyle{
-  font-family: 'Merriweather', serif;
+
+.fontstyle {
+  font-family: "Merriweather", serif;
+}
+.btn{
+  /* background: transparent; */
+  border: 1px solid #ffffff80;
+  transition: .5s ease;
+}
+.btn:hover,
+:focus {
+  background: #00eeff;
+  border: 1px solid #00e1ff;
+  text-shadow: 0 0 5px #ffffff, 0 0 10px #ffffff, 0 0 20px #ffffff;
+  box-shadow: 0 0 5px #00e1ff, 0 0 20px #00e1ff, 0 0 50px #00e1ff,
+    0 0 100px #00e1ff;
 }
