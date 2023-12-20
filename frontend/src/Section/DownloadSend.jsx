@@ -4,6 +4,7 @@ import MailBox from "../Components/MailBox";
 import Axios from "axios";
 import { useParams } from "react-router-dom";
 import { APIBASE_URL } from "../url";
+import TransferAnimation from "../Components/TransferAnimation";
 export default function DownloadSend() {
   const { id } = useParams();
   const [fileLink, setfileLink] = useState("");
@@ -13,9 +14,11 @@ export default function DownloadSend() {
     });
   }, []);
   return (
-    <div className="flex flex-col lg:flex-row gap-4 items-center justify-center mt-[40px] lg:mt-0">
-      <DownloadBox fileLink={fileLink} />
-      <MailBox />
-    </div>
+    <>
+      <div className="flex flex-col lg:flex-row gap-4 items-center justify-center mt-[40px] lg:mt-0">
+        <DownloadBox fileLink={fileLink}/>
+        <MailBox />
+      </div>
+    </>
   );
 }

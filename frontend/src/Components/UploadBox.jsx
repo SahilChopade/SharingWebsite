@@ -4,8 +4,10 @@ import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import Button from "./Button";
 import Axios from "axios";
 import { useNavigate } from "react-router-dom";
+import TransferAnimation from "./TransferAnimation";
 import { APIBASE_URL } from "../url";
-export default function UploadBox() {
+export default function UploadBox({loadingFun}) {
+  const navigate = useNavigate(); 
   const [uploadfile, setuploadFile] = useState(null);
   const [passwordType, setPasswordType] = useState("password");
   const [passwordInput, setPasswordInput] = useState("");
@@ -19,18 +21,18 @@ export default function UploadBox() {
     }
     setPasswordType("password");
   };
-  const navigate = useNavigate();
   const handleClick = () => {
+    loadingFun();
     let formData = new FormData();
     formData.append("file", uploadfile);
     formData.append("password", passwordInput);
     const config = {
       headers: { "content-type": "multipart/form-data" },
     };
-
     Axios.post(APIBASE_URL + "/upload", formData, config)
       .then((response) => {
         console.log("This is the post request resoponse data", response.data);
+        loadingFun();
         navigate(`/download/${response.data}`);
       })
       .catch((error) => {
@@ -44,7 +46,7 @@ export default function UploadBox() {
   };
 
   return (
-    <div className="p-[20px] text-center">
+    <div className="1p-[20px] text-center">
       <div className="bg-white p-[40px] rounded-lg">
         <h1 className="font-bold lg:text-[30px] text-[20px] text-left p-[10px] border-l-4 border-black">
           SHARE FILES WITH SAFETY
