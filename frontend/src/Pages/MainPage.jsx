@@ -2,11 +2,8 @@ import React from "react";
 import UploadPage from "../Section/Upload";
 import DownloadSend from "../Section/DownloadSend";
 import PasswordPage from "../Section/Password";
-import Logo from "../assets/images/Logo.png";
-import {
-  createBrowserRouter,
-  RouterProvider,
-} from "react-router-dom";
+import Logo from "../assets/images/Logo-img.png";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 function MainPage() {
   const router = createBrowserRouter([
     {
@@ -26,6 +23,7 @@ function MainPage() {
     <div className="fontstyle back p-[30px] min-h-[100vh] max-h-fit">
       <div className="w-[10rem]">
         <img src={Logo} alt="logo" />
+        {/* <Logo /> */}
       </div>
       <RouterProvider router={router} />
     </div>
