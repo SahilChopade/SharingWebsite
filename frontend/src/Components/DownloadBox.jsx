@@ -83,7 +83,7 @@ export default function DownloadBox(downloadProps) {
           <a
             className="flex grow cursor-pointer overflow-hidden"
             onClick={handleDownloadClick}
-            href={downloadProps.fileLink}
+            href={"#"}
           >
             {downloadProps.fileLink}
           </a>

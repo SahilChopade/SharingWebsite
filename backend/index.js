@@ -50,7 +50,8 @@ app.get("/upload/:id", async function (req, res) {
 
 app.post("/send/:id", sendMail);
 
-app.route("/file/:id").get(handleDownload).post(handleDownload);
+app.route("/file/:id").get(handleDownload);
+app.route("/file/:id").post(handleDownload);
 
 async function handleDownload(req, res) {
   console.log("entered")
@@ -82,6 +83,6 @@ app.get("/find/:id", async (req, res) => {
 });
 
 //APP STARTING CONNECTION TO PORT 3000
-app.listen(3000, function () {
-  console.log("Server is running at port 3000..");
+app.listen(4000, function () {
+  console.log("Server is running at port 4000..");
 });
